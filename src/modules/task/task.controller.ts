@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
+import { Task } from './task.entity';
 
 @Controller('tasks')
 export class TasksController {
@@ -15,25 +16,24 @@ export class TasksController {
 
   @Get('/:id')
   getTask(@Param('id') id: string) {
-    return this.taskService.getTask(id);
+    return this.taskService.findOneTask(Number(id));
   }
-  @Post('/')
-  createTask(@Body() body: any) {
-    return this.taskService.createTask(body);
-  }
-
-  @Patch('/:id/done')
-  markTaskAsDone(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  @Post('a')
+  createTask(@Body() taskData: Partial<Task>) {
+    return this.taskService.createTask(taskData);
   }
 
-  @Patch('/:id/pending')
-  markTaskAsPending(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  @Patch('/:id')
+  updateTask(@Param('id') id: string, @Body() body: Partial<Task>) {
+    return this.taskService.updateTask(Number(id), body);
   }
 
   @Delete('/:id')
   deleteTask(@Param('id') id: string) {
-    return this.taskService.deleteTask(id);
+    return this.taskService.deleteTask(Number(id));
+  }
+  @Get('/getAllTasks')
+  getAllTasks() {
+    return this.taskService.findAllTasks();
   }
 }
