@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <AddTodo @added="handleAddTodo" />
+    <AddTodo />
     <h3>Pending Tasks:</h3>
     <TodoLists status="pending" />
 
@@ -39,9 +39,7 @@ export default {
     }),
   },
   methods: {
-    handleAddTodo(todo) {
-      this.store.addTodo(todo);
-    },
+    
     clearAllTodos() {
       console.log("clear");
       this.store.clearAll();
