@@ -1,22 +1,20 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './modules/user/user.module';
-import { TaskModule } from './modules/task/task.module';
-import { User } from './modules/user/users.entity';
-import { Task } from './modules/task/task.entity';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { StudentModule } from './modules/student/student.module';
+import { AttendanceModule } from './modules/attendance/attendance.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'todo.sqlite',
-      entities: [User, Task],
-      synchronize: true,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      playground: true,
+      typePaths: ['./**/*.graphql'],
     }),
-    UserModule,
-    TaskModule,
+    StudentModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
